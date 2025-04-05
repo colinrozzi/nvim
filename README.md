@@ -24,7 +24,7 @@ This configuration provides a balance of functionality and simplicity, with care
 ### General
 
 - `<Space>` - Leader key
-- `<Space>o` - Open a file with `:e`
+- `<Space>o` - Refresh current file (reload from disk)
 - `\` - Toggle file explorer (Neo-Tree)
 
 ### Navigation
