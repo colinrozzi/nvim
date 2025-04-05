@@ -1,7 +1,3 @@
-# My Neovim Configuration
-
-A personalized Neovim setup based on kickstart.nvim, focused on providing a clean, productive coding environment with modern features.
-
 ## Overview
 
 This configuration provides a balance of functionality and simplicity, with carefully selected plugins for a great development experience. It's designed to be:
