@@ -285,6 +285,9 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
+-- Load custom base configuration
+require('custom.base')
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -342,6 +345,21 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Shortcut to refresh the current file when it's changed externally
 vim.keymap.set('n', '<leader>o', ':edit<CR>', { desc = 'Refresh current file' })
+
+-- Additional useful keymaps
+vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Save file' })
+vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
+vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit all' })
+
+-- Better window navigation
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to bottom window' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to top window' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to right window' })
+
+-- Stay in indent mode
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent left and reselect' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent right and reselect' })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -523,7 +541,10 @@ local servers = {
   -- gopls = {},
   -- pyright = {},
   rust_analyzer = {},
+  ts_ls = {}, -- TypeScript/JavaScript language server
   html = { filetypes = { 'html', 'twig', 'hbs' } },
+  cssls = {}, -- CSS language server
+  jsonls = {}, -- JSON language server
 
   lua_ls = {
     Lua = {

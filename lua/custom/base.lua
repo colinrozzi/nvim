@@ -1,5 +1,2 @@
-print('base')
-
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+-- Custom base configuration
+-- Using 2-space indentation (consistent with main config)
