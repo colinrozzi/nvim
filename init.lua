@@ -298,6 +298,11 @@ vim.wo.number = true
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
+vim.opt.expandtab = true -- Use spaces instead of tabs
+vim.opt.tabstop = 2      -- Number of spaces tabs count for
+vim.opt.shiftwidth = 2   -- Number of spaces to use for each step of (auto)indent
+vim.opt.softtabstop = 2  -- Number of spaces that a <Tab> counts for while editing
+
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
