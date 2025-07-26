@@ -579,6 +579,36 @@ mason_lspconfig.setup_handlers {
   end
 }
 
+-- [[ Configure Diagnostics ]]
+vim.diagnostic.config({
+  virtual_text = {
+    enabled = true,
+    source = "if_many",  -- Show source if multiple sources
+    prefix = "●",        -- Could also be "■", "▎", "x", etc.
+    severity = nil,      -- Show all severities
+    format = nil,        -- Use default formatting
+  },
+  signs = {
+    enabled = true,
+    priority = 10,
+  },
+  underline = {
+    enabled = true,
+    severity = nil,  -- Underline all severities
+  },
+  update_in_insert = false,  -- Don't update diagnostics while typing
+  severity_sort = true,      -- Sort diagnostics by severity
+  float = {
+    enabled = true,
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",  -- Always show source in floating window
+    header = "",
+    prefix = "",
+  },
+})
+
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
