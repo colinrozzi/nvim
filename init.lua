@@ -540,7 +540,7 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  -- rust_analyzer = {}, -- Handled by rustaceanvim
+  -- rust_analyzer handled by rustaceanvim, so excluded here
   ts_ls = {}, -- TypeScript/JavaScript language server
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   cssls = {}, -- CSS language server
@@ -570,6 +570,11 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
+    -- Skip rust_analyzer as it's handled by rustaceanvim
+    if server_name == 'rust_analyzer' then
+      return
+    end
+    
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
