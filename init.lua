@@ -540,7 +540,7 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  rust_analyzer = {},
+  -- rust_analyzer = {}, -- Handled by rustaceanvim
   ts_ls = {}, -- TypeScript/JavaScript language server
   html = { filetypes = { 'html', 'twig', 'hbs' } },
   cssls = {}, -- CSS language server
