@@ -483,6 +483,55 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
+-- Enhanced diagnostic keymaps for copying
+vim.keymap.set('n', '<leader>E', function()
+  vim.diagnostic.open_float({
+    focusable = true,
+    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+    border = 'rounded',
+    source = 'always',
+    prefix = ' ',
+    scope = 'cursor',
+  })
+end, { desc = 'Open focusable diagnostic float' })
+
+vim.keymap.set('n', '<leader>ec', function()
+  local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+  if #diagnostics == 0 then
+    vim.notify('No diagnostics on current line', vim.log.levels.INFO)
+    return
+  end
+  
+  local messages = {}
+  for _, diagnostic in ipairs(diagnostics) do
+    local severity = vim.diagnostic.severity[diagnostic.severity]
+    table.insert(messages, string.format('[%s] %s', severity, diagnostic.message))
+  end
+  
+  local text = table.concat(messages, '\n')
+  vim.fn.setreg('+', text)
+  vim.notify(string.format('Copied %d diagnostic(s) to clipboard', #diagnostics), vim.log.levels.INFO)
+end, { desc = 'Copy current line diagnostics to clipboard' })
+
+vim.keymap.set('n', '<leader>ea', function()
+  local diagnostics = vim.diagnostic.get(0)
+  if #diagnostics == 0 then
+    vim.notify('No diagnostics in current buffer', vim.log.levels.INFO)
+    return
+  end
+  
+  local messages = {}
+  for _, diagnostic in ipairs(diagnostics) do
+    local severity = vim.diagnostic.severity[diagnostic.severity]
+    local filename = vim.fn.expand('%:t')
+    table.insert(messages, string.format('%s:%d [%s] %s', filename, diagnostic.lnum + 1, severity, diagnostic.message))
+  end
+  
+  local text = table.concat(messages, '\n')
+  vim.fn.setreg('+', text)
+  vim.notify(string.format('Copied %d diagnostic(s) from %s to clipboard', #diagnostics, vim.fn.expand('%:t')), vim.log.levels.INFO)
+end, { desc = 'Copy all buffer diagnostics to clipboard' })
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
