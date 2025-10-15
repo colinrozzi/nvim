@@ -93,12 +93,17 @@ return {
   },
 
   -- Rust enhancements
+  -- Rust enhancements
   {
     "mrcjkb/rustaceanvim",
     version = "^5", -- Recommended
     lazy = false, -- This plugin is already lazy
     ft = { "rust" },
     config = function()
+      -- Get capabilities from nvim-cmp
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      
       vim.g.rustaceanvim = {
         -- Plugin configuration
         tools = {
@@ -112,6 +117,7 @@ return {
         },
         -- LSP configuration
         server = {
+          capabilities = capabilities,
           on_attach = function(client, bufnr)
             -- Standard LSP keymaps (same as main config)
             local nmap = function(keys, func, desc)
@@ -171,12 +177,18 @@ return {
                   enable = true,
                 },
               },
-              -- Add clippy lints for Rust
+              -- Check configuration - using 'check' is more reliable than 'clippy'
               checkOnSave = {
                 enable = true,
                 allFeatures = true,
-                command = "clippy",
-                extraArgs = { "--no-deps" },
+                command = "check",
+              },
+              -- Enable diagnostics
+              diagnostics = {
+                enable = true,
+                experimental = {
+                  enable = true,
+                },
               },
               procMacro = {
                 enable = true,
