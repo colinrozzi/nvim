@@ -11,6 +11,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- Markdown-specific settings
+local markdown_group = vim.api.nvim_create_augroup('MarkdownSettings', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  group = markdown_group,
+  callback = function()
+    -- Ensure Tab behaves as normal indentation in markdown
+    vim.keymap.set('i', '<Tab>', '<Tab>', { buffer = true, desc = 'Normal tab in markdown' })
+    vim.keymap.set('i', '<S-Tab>', '<C-d>', { buffer = true, desc = 'Unindent in markdown' })
+  end,
+})
+
 -- You can add more autocommands here as needed
 -- For example:
 -- 

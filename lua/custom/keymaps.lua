@@ -79,3 +79,32 @@ vim.keymap.set('n', '<leader>ea', function()
   vim.fn.setreg('+', text)
   vim.notify(string.format('Copied %d diagnostic(s) from %s to clipboard', #diagnostics, vim.fn.expand('%:t')), vim.log.levels.INFO)
 end, { desc = 'Copy all buffer diagnostics to clipboard' })
+
+-- Fresh page for note-taking
+vim.keymap.set('n', '<leader>fp', function()
+  -- Move cursor to top of current viewport and center it at top of screen
+  vim.cmd('normal! zt')
+  -- Clear screen by moving to a position that puts cursor at top
+  local current_line = vim.fn.line('.')
+  local win_height = vim.api.nvim_win_get_height(0)
+  local target_line = current_line + win_height
+  
+  -- If we can move down a full screen, do it
+  local total_lines = vim.fn.line('$')
+  if target_line <= total_lines then
+    vim.fn.cursor(target_line, 1)
+    vim.cmd('normal! zt')
+  else
+    -- If we can't move a full screen, go to end of file and center
+    vim.cmd('normal! G')
+    vim.cmd('normal! zz')
+  end
+end, { desc = 'Fresh page - move to clear screen for notes' })
+
+-- Alternative simpler version - just scroll down and center
+vim.keymap.set('n', '<leader>cl', function()
+  -- Scroll down by the window height to simulate clearing screen
+  local win_height = vim.api.nvim_win_get_height(0)
+  vim.cmd('normal! ' .. win_height .. 'j')
+  vim.cmd('normal! zt')
+end, { desc = 'Clear screen - scroll down for fresh view' })

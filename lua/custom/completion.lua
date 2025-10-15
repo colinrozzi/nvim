@@ -8,6 +8,11 @@ local function setup()
   require('luasnip.loaders.from_vscode').lazy_load()
   luasnip.config.setup {}
 
+  -- Disable completion for markdown files
+  cmp.setup.filetype('markdown', {
+    enabled = false
+  })
+
   cmp.setup {
     snippet = {
       expand = function(args)
